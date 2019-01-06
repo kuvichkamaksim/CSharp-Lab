@@ -48,5 +48,23 @@ namespace Lab
             Console.WriteLine("Second name: " + this.secondName);
             Console.WriteLine("Day of birth: " + this.birthDate.ToShortDateString());
         }
+
+        public override bool Equals(object obj)
+        {
+            Person item = (Person)obj;
+            return string.Equals(this.firstName, item.firstName) &&
+                   string.Equals(this.secondName, item.secondName) &&
+                   string.Equals(this.birthDate.ToShortDateString(), item.birthDate.ToShortDateString());
+        }
+
+        public static bool operator ==(Person human1, Person human2)
+        {
+            return human1.Equals(human2);
+        }
+
+        public static bool operator !=(Person human1, Person human2)
+        {
+            return !human1.Equals(human2);
+        }
     }
 }

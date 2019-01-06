@@ -20,20 +20,25 @@ namespace Lab
 
         public string group { get; set; }
 
-        public int gratebookNumber { get; set; }
+        public int gradebookNumber { get; set; }
 
-        private List<Examination> passedExams;
+        public List<Examination> passedExams;
 
         public float averageMark
         {
             get
             {
                 int sum = 0;
+                int count = 0;
                 foreach (Examination exam in passedExams)
                 {
-                    sum += exam.mark;
+                    if (exam.isDifferential)
+                    {
+                        sum += exam.mark;
+                        count++;
+                    }
                 }
-                return sum / passedExams.Count;
+                return sum / count;
             }
         }
 
@@ -55,13 +60,45 @@ namespace Lab
             base.PrintFullInfo();
             Console.WriteLine("Education level: " + this.education);
             Console.WriteLine("Group: " + this.group);
-            Console.WriteLine("Gratebook number: " + this.gratebookNumber);
+            Console.WriteLine("Gratebook number: " + this.gradebookNumber);
             Console.WriteLine("Examinations:");
             foreach (Examination exam in this.passedExams)
             {
-                Console.WriteLine(exam);
+                Console.WriteLine("\t" + exam);
             }
             Console.WriteLine("Average mark: " + this.averageMark);
+        }
+
+        public Student() : base()
+        {
+            this.education = Education.Bachelor;
+            this.group = "IP-71";
+            this.gradebookNumber = 15;
+            this.passedExams = new List<Examination>();
+        }
+
+        public Student(string firstName, string secondName, DateTime birthDate, Education education,
+            string group, int gradebookNumber) : base(firstName, secondName, birthDate)
+        {
+            this.education = education;
+            this.group = group;
+            this.gradebookNumber = gradebookNumber;
+            this.passedExams = new List<Examination>();
+        }
+
+        public int countNotDifferential()
+        {
+            int iter = 0;
+            foreach (Examination exam in passedExams)
+            {
+                if (!exam.isDifferential) iter++;
+            }
+            return iter;
+        }
+
+        public void sortByFirstLetter()
+        {
+            this.passedExams = this.passedExams.OrderBy(x => x.subject[0]).ThenBy(x => x.subject[0]).ToList();
         }
     }
 }

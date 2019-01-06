@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace Lab
 {
-    class Examination
+    public interface IMarkName
+    {
+        string NationalScaleName();
+        string EctsScaleName();
+    }
+
+    class Examination : IMarkName
     {
         public int semesterNumber { get; set; }
 
@@ -14,9 +20,9 @@ namespace Lab
 
         public string examinerFullName { get; set; }
 
-        public byte mark { get; set; }
+        public byte mark {get; set; }
 
-        public bool isDefferential { get; set; }
+        public bool isDifferential { get; set; }
 
         public DateTime examDate { get; set; }
 
@@ -26,7 +32,7 @@ namespace Lab
             this.mark = 100;
             this.subject = "OOP";
             this.examinerFullName = "Mykha I.P.";
-            this.isDefferential = false;
+            this.isDifferential = false;
             this.examDate = new DateTime();
         }
         public Examination(int semesterNumber, string subject, string examinerFullName, byte mark, bool isDefferential, DateTime examDate)
@@ -35,13 +41,28 @@ namespace Lab
             this.mark = mark;
             this.subject = subject;
             this.examinerFullName = examinerFullName;
-            this.isDefferential = isDefferential;
+            this.isDifferential = isDefferential;
             this.examDate = examDate;
         }
 
         public override string ToString()
         {
             return subject + ", " + examinerFullName + ", " + mark;
+        }
+
+        public string NationalScaleName()
+        {
+            return this.mark.ToString();
+        }
+
+        public string EctsScaleName()
+        {
+            if (this.mark <= 100 && this.mark >= 95) return "A";
+            if(this.mark < 95 && this.mark >= 85) return "B";
+            if (this.mark < 85 && this.mark >= 75) return "C";
+            if (this.mark < 75 && this.mark >= 65) return "D";
+            if (this.mark < 65 && this.mark >= 60) return "E";
+            return "F";
         }
     }
 }
